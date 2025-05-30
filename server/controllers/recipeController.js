@@ -1,56 +1,20 @@
 // Make sure to store your API key in a .env file, and use process.env to access it
-//
-// const axios = require('axios');
-// const generateRecipe = async (req, res) => {
-//   try {
-//     const { ingredients } = req.body;
-//     const data = {
-//       model: 'text-davinci-003',
-//       messages: [
-//         {
-//           role: 'user',
-//           content: `Generate a detailed cooking recipe using ONLY the following ingredients: ${ingredients}.`,
-//         },
-//       ],
-//     };
-
-//     const headers = {
-//       'Content-Type': 'application/json',
-//       Authorization:
-//         'Bearer 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',
-//     };
-
-//     const response = await axios.post(
-//       'https://api.openai.com/v1/chat/completions',
-//       data,
-//       { headers }
-//     );
-
-//     const message = response.data.choices[0].text.trim();
-//     res.json({ recipe: message });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Server error' });
-//   }
-// };
-
-// module.exports = {
-//   generateRecipe,
-// };
+require('dotenv').config()
 
 const { Configuration, OpenAIApi } = require('openai');
-const OPENAI_API_KEY = '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';
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 const genRecipe = async (req, res, next) => {
   try {
     const { ingredients } = req.body;
+    console.log("Loaded API Key:", process.env.OPENAI_API_KEY);
     const configuration = new Configuration({
       apiKey: OPENAI_API_KEY,
     });
     const openai = new OpenAIApi(configuration);
 
     const completion = await openai.createChatCompletion({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4.1-nano',
       temperature: 1,
       max_tokens: 800,
       messages: [
@@ -61,30 +25,29 @@ const genRecipe = async (req, res, next) => {
       ],
     });
     console.log(completion.data);
+   
     const response = completion.data.choices[0].message;
-
     res.locals.response = response;
     return next();
+
   } catch (error) {
-    // Handle error
-    console.error('Error generating recipe:', error);
-    return res.status(500).json({ error: 'Failed to generate recipe' });
+  if (error.response) {
+    // OpenAI API responded with an error
+    console.error('OpenAI API Error:', error.response.data);
+    return res.status(500).json({ error: error.response.data });
+  } else if (error.request) {
+    // Request was made but no response
+    console.error('No response from OpenAI:', error.request);
+    return res.status(500).json({ error: 'No response from OpenAI' });
+  } else {
+    // Other errors
+    console.error('Error in OpenAI request setup:', error.message);
+    return res.status(500).json({ error: error.message });
   }
+}
+
 };
 module.exports = {
   genRecipe,
 };
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+

@@ -1,3 +1,4 @@
+require('dotenv').config({ path: '../.env' });
 const path = require('path');
 const express = require('express');
 const recipeRoutes = require('./routes/recipeRoutes');
@@ -29,11 +30,7 @@ app.use((err, req, res, next) => {
   console.log(errorObj.log);
 
   res.status(errorObj.status).json(errorObj.message);
-  //   res.locals.message = err.message;
-  //   console.log('ERROR: ', err);
-  //   const errorStatus = err.status
-  //  || 500;
-  //   return res.status(errorStatus).send(res.locals.message);
+
 });
 app.listen(5000, () => {
   console.log('Server is running on port 5000');
