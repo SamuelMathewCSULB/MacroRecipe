@@ -6,11 +6,11 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 const genRecipe = async (req, res, next) => {
   try {
-    const { ingredients } = req.body;
-    console.log("Loaded API Key:", process.env.OPENAI_API_KEY);
-    const configuration = new Configuration({
-      apiKey: OPENAI_API_KEY,
-    });
+    console.log('📩 Received POST /api/recipes');
+console.log('👉 Request body:', req.body);
+    const { ingredients, calories, protein, foodType } = req.body;
+
+    const configuration = new Configuration({ apiKey: OPENAI_API_KEY });
     const openai = new OpenAIApi(configuration);
 
     const completion = await openai.createChatCompletion({
@@ -20,33 +20,39 @@ const genRecipe = async (req, res, next) => {
       messages: [
         {
           role: 'user',
-          content: `Generate me a detailed recipe with the name of the dish, the ingredients and the step by step instructions using these ingredients ${ingredients}. Make sure that the recipe has all the ingredients needed and very elaborate instructions and return it as a JSON object and make sure the the dish name property is ALWAYS called name, the instructions property is ALWAYS called instructions and the ingredients property is ALWAYS called ingredients. Also make sure that the elements in the arrays that you are returning are string and NOT objects`,
+          content: `Generate a detailed recipe using the following:
+- Ingredients: ${ingredients}
+- Calorie budget: ${calories} calories
+- Protein goal: at least ${protein} grams
+- Cuisine type: ${foodType}
+
+The response must be a JSON object with the properties:
+- name (string)
+- ingredients (array of strings)
+- instructions (array of strings)
+
+Make the recipe detailed and follow all the provided constraints. DO NOT include objects in the arrays.`,
         },
       ],
     });
-    console.log(completion.data);
-   
-    const response = completion.data.choices[0].message;
-    res.locals.response = response;
+
+    const content = completion.data.choices[0].message.content;
+    console.log("Raw GPT content:", content);
+
+    const parsed = JSON.parse(content);
+    console.log('🍽 Final parsed recipe:', parsed);
+    
+    res.locals.response = parsed;
     return next();
 
   } catch (error) {
-  if (error.response) {
-    // OpenAI API responded with an error
-    console.error('OpenAI API Error:', error.response.data);
-    return res.status(500).json({ error: error.response.data });
-  } else if (error.request) {
-    // Request was made but no response
-    console.error('No response from OpenAI:', error.request);
-    return res.status(500).json({ error: 'No response from OpenAI' });
-  } else {
-    // Other errors
-    console.error('Error in OpenAI request setup:', error.message);
-    return res.status(500).json({ error: error.message });
+    console.error('Error in genRecipe:', error.message);
+    return res.status(500).json({ error: 'Failed to generate recipe' });
   }
-}
-
 };
+
+
+
 module.exports = {
   genRecipe,
 };

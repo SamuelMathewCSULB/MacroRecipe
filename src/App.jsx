@@ -2,10 +2,8 @@ import './App.css';
 import Cookies from 'js-cookie';
 import React, { useState, useEffect } from 'react';
 import {
-  BrowserRouter as Router,
   Route,
   Routes,
-  useNavigate,
 } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
@@ -18,8 +16,7 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isInitialCheckDone, setIsInitialCheckDone] = useState(false);
   const [pageRecipe, setpageRecipe] = useState(null);
-  const navigate = useNavigate();
-
+  
 
   
   const fetchRecipe = async () => {
@@ -38,11 +35,11 @@ const App = () => {
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
-    Cookies.remove('ssid');
-    Cookies.remove('loggedIn');
-    navigate('/');
-  };
+  setIsLoggedIn(false);
+  Cookies.remove('ssid');
+  Cookies.remove('loggedIn');
+  window.location.href = '/'; // ✅ Simple redirect that works everywhere
+};
 
   useEffect(() => {
     const checkLoggedInStatus = () => {

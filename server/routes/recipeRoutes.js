@@ -8,15 +8,13 @@ router.post(
   recipeController.genRecipe,
   recipeParser.parseRecipe,
   (req, res) => {
-    res.status(200).json(res.locals.response);
+    console.log('🚀 Sending response to client:', res.locals.response);
+    if (!res.locals.response) {
+      return res.status(500).json({ error: 'No recipe generated' });
+    }
+
+    res.status(200).json(res.locals.response); // ✅ This ensures the response body is not empty
   }
 );
 
-router.post('/saverecipe', saveController.saveRecipe, (req, res) => {
-  res.status(200).send('Recipe Saved!');
-});
-
-router.get('/getrecipe', saveController.getRecipe, (req, res) => {
-  res.status(200).json(res.locals.recipes);
-});
 module.exports = router;
