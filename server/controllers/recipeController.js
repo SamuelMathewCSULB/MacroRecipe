@@ -30,8 +30,12 @@ The response must be a JSON object with the properties:
 - name (string)
 - ingredients (array of strings)
 - instructions (array of strings)
+- calories (number)
+- protein (number)
+- carbs (number)
+- fats (number)
 
-Make the recipe detailed and follow all the provided constraints. DO NOT include objects in the arrays.`,
+Ensure all macros are approximate values based on the ingredients. Do NOT include objects in arrays.`,
         },
       ],
     });
@@ -56,4 +60,3 @@ Make the recipe detailed and follow all the provided constraints. DO NOT include
 module.exports = {
   genRecipe,
 };
-

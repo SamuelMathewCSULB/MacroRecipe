@@ -90,9 +90,14 @@ setpageRecipe(data);
         Search
       </button>
 
-      {pageRecipe && pageRecipe.ingredients ? (
+{pageRecipe && pageRecipe.ingredients ? (
   <div style={{ marginTop: '30px' }}>
     <h2>{pageRecipe.name}</h2>
+
+    <p><strong>Calories:</strong> {pageRecipe.calories} kcal</p>
+    <p><strong>Protein:</strong> {pageRecipe.protein} g</p>
+    <p><strong>Carbs:</strong> {pageRecipe.carbs} g</p>
+    <p><strong>Fats:</strong> {pageRecipe.fats} g</p>
 
     <h3>Ingredients:</h3>
     <ul>
@@ -113,6 +118,7 @@ setpageRecipe(data);
     Enter your preferences and hit <strong>Search</strong> to generate a recipe.
   </p>
 )}
+
 
     </div>
   );
