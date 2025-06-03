@@ -1,6 +1,6 @@
-# RecipeAI
+# macrocooking
 
-RecipeAI is a web application that generates unique recipes based on user input ingredients. The application utilizes the OpenAI API to create these recipes and allows users to save their favorite creations to a "My Recipes" page. Built using Node.js, React, MongoDB, Express, Material-UI, CSS/HTML, and Webpack, this app is both visually appealing and user-friendly.
+macrocooking is a web application that generates unique recipes based on user input ingredients. The application utilizes the OpenAI API to create these recipes and allows users to save their favorite creations to a "My Recipes" page. Built using Node.js, React, MongoDB, Express, Material-UI, CSS/HTML, and Webpack, this app is both visually appealing and user-friendly.
 
 ## Table of Contents
 
@@ -11,8 +11,6 @@ RecipeAI is a web application that generates unique recipes based on user input 
   - [Running the App](#running-the-app)
 - [Tech Stack](#tech-stack)
 - [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
 
 ## Features
 
@@ -24,7 +22,7 @@ RecipeAI is a web application that generates unique recipes based on user input 
 
 ## Getting Started
 
-Follow these steps to set up and run the RecipeAI application on your local machine.
+Follow these steps to set up and run the macrocooking application on your local machine.
 
 ### Prerequisites
 
@@ -37,14 +35,14 @@ Before you get started, you'll need the following tools installed on your system
 ### Installation
 
 1. Clone the repository:
-### git clone https://github.com/yourusername/RecipeAI.git
+### git clone https://github.com/yourusername/macrocooking.git
 2. Change the current directory to the project root:
-### cd RecipeAI
+### cd macrocooking
 3. Install the required dependencies:
  ### npm install
  Set up your environment variables by creating a `.env` file in the root directory. Replace `<YOUR_OPENAI_API_KEY>` with your OpenAI API key:
 ### OPENAI_API_KEY=<YOUR_OPENAI_API_KEY>
-MONGO_URI=mongodb://localhost:27017/recipeai
+MONGO_URI=mongodb://localhost:27017/macrocooking
 PORT=3000
 5. Build the React app using Webpack:
 ### npm run build
@@ -55,7 +53,7 @@ PORT=3000
 ### npm start
 2. Open your browser and navigate to `http://localhost:3000`.
 
-Now you can use RecipeAI to generate and save unique recipes!
+Now you can use macrocooking to generate and save unique recipes!
 
 ## Tech Stack
 
@@ -77,8 +75,6 @@ We welcome contributions to the project! To get started, follow these steps:
 4. Push to the branch (`git push origin feature/YourFeature`)
 5. Open a pull request
 
-## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 
